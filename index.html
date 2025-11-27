@@ -111,10 +111,30 @@
       background: var(--accent-soft);
       border: 1px dashed var(--accent-border);
       color: #fefce8;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
 
     .tagline strong { color: var(--accent); }
+
+    /* БАННЕР С ТАЙМЕРОМ */
+    .timer-banner {
+      margin-bottom: 14px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(220, 38, 38, 0.16);
+      border: 1px solid rgba(248, 113, 113, 0.9);
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .timer-banner .time {
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #fecaca;
+      font-variant-numeric: tabular-nums;
+    }
 
     .stats-inline {
       display: flex;
@@ -306,6 +326,12 @@
             🔒 Закрытый доступ · <strong>ограниченное количество мест</strong>
           </div>
 
+          <!-- Таймер закрытия доступа -->
+          <div class="timer-banner" id="timer-banner">
+            <span>⏳ Доступ для новых подключений закроется через</span>
+            <span class="time" id="countdown">45:00</span>
+          </div>
+
           <div class="stats-inline">
             <div class="pill">
               <span class="label">Тип аккаунта</span>
@@ -393,6 +419,40 @@
       }
       stepsBlock.scrollIntoView({ behavior: "smooth", block: "start" });
     });
+
+    // ТАЙМЕР 45 МИНУТ
+    const countdownEl = document.getElementById("countdown");
+    const timerBanner = document.getElementById("timer-banner");
+
+    // 45 минут от момента захода на страницу
+    const endTime = Date.now() + 45 * 60 * 1000;
+
+    function updateTimer() {
+      const diff = endTime - Date.now();
+
+      if (diff <= 0) {
+        clearInterval(timerInterval);
+        if (countdownEl) countdownEl.textContent = "00:00";
+        if (timerBanner) {
+          timerBanner.textContent = "⛔ Доступ для новых подключений временно закрыт";
+        }
+        return;
+      }
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+
+      const mm = String(minutes).padStart(2, "0");
+      const ss = String(seconds).padStart(2, "0");
+
+      if (countdownEl) {
+        countdownEl.textContent = mm + ":" + ss;
+      }
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+    updateTimer();
   </script>
 </body>
 </html>
