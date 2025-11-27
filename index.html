@@ -2,15 +2,18 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Программа предиктора</title>
+  <title>Приватный доступ к программе предиктора</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
       --bg: #020617;
       --card: #020617;
       --accent: #facc15;
+      --accent-soft: rgba(250, 204, 21, 0.12);
+      --accent-border: rgba(250, 204, 21, 0.6);
       --text-main: #f9fafb;
       --text-muted: #9ca3af;
+      --border: #1f2937;
     }
 
     * { box-sizing: border-box; }
@@ -27,56 +30,369 @@
       padding: 16px;
     }
 
-    .card {
-      max-width: 520px;
-      width: 100%;
+    .page { width: 100%; max-width: 960px; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 22px;
+    }
+
+    @media (max-width: 840px) {
+      .layout { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    .card, .side {
       background: radial-gradient(circle at top left, #0b1120 0, #020617 55%, #020617 100%);
       border-radius: 24px;
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      box-shadow: 0 22px 40px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: 0 22px 40px rgba(0, 0, 0, 0.6);
       padding: 24px 22px 20px;
-      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before, .side::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(250, 204, 21, 0.2), transparent 60%);
+      mix-blend-mode: screen;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .card-inner, .side-inner { position: relative; z-index: 1; }
+
+    .badge-geo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.2);
     }
 
     h1 {
-      margin: 0 0 10px;
+      margin: 0 0 8px;
       font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .accent {
-      color: var(--accent);
-      font-weight: 700;
+    h1 span.flag { font-size: 1.8rem; }
+
+    .subtitle {
+      margin: 0 0 14px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
     }
 
-    p {
-      margin: 6px 0;
-      font-size: 0.98rem;
+    .tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      background: var(--accent-soft);
+      border: 1px dashed var(--accent-border);
+      color: #fefce8;
+      margin-bottom: 14px;
     }
 
-    .note {
-      margin-top: 10px;
+    .tagline strong { color: var(--accent); }
+
+    .stats-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
       font-size: 0.8rem;
+    }
+
+    .pill {
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.9);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill span.label { color: var(--text-muted); font-size: 0.76rem; }
+
+    .pill strong { font-size: 0.9rem; }
+
+    .promo-pill {
+      background: rgba(22, 163, 74, 0.14);
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+    }
+
+    .promo-pill code {
+      background: rgba(15, 23, 42, 0.9);
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.6);
+      font-size: 0.78rem;
+    }
+
+    .btn-main {
+      width: 100%;
+      margin-top: 2px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 14px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #facc15, #eab308);
+      color: #020617;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 16px 30px rgba(250, 204, 21, 0.35);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    }
+
+    .btn-main span.icon { font-size: 1.15rem; }
+
+    .btn-main:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 22px 40px rgba(250, 204, 21, 0.45);
+      filter: brightness(1.03);
+    }
+
+    .btn-main:active {
+      transform: translateY(1px);
+      box-shadow: 0 10px 22px rgba(250, 204, 21, 0.3);
+      filter: brightness(0.98);
+    }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .steps {
+      margin-top: 14px;
+      padding: 12px 12px 10px;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      display: none;
+      font-size: 0.86rem;
+    }
+
+    .steps-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+
+    .steps-ol {
+      margin: 0 0 8px 18px;
+      padding: 0;
+    }
+
+    .steps-ol li { margin: 3px 0; }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(250, 204, 21, 0.7);
+      background: rgba(15, 23, 42, 0.98);
+      color: #fefce8;
+      font-size: 0.88rem;
+      text-decoration: none;
+      gap: 6px;
+    }
+
+    .link-btn span.icon { font-size: 1rem; }
+
+    .link-btn:hover {
+      filter: brightness(1.08);
+      box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.6);
+    }
+
+    .promo-under-link {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: #bbf7d0;
+    }
+
+    .promo-under-link code {
+      background: rgba(15, 23, 42, 0.95);
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.6);
+      font-size: 0.8rem;
+    }
+
+    .side-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .metric {
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
+    .metric span.label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .metric strong {
+      font-size: 1.05rem;
+      color: var(--accent);
+    }
+
+    footer {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 0.7rem;
       color: var(--text-muted);
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Программа предиктора</h1>
+  <div class="page">
+    <div class="layout">
+      <!-- LEFT: регистрация -->
+      <section class="card">
+        <div class="card-inner">
+          <div class="badge-geo">
+            <span class="badge-dot"></span>
+            Онлайн доступ · приватная программа
+          </div>
 
-    <p>
-      <span class="accent">Средний дневной заработок активных пользователей</span><br />
-      около <strong>100&nbsp;$ в день</strong> при соблюдении базовой стратегии.
-    </p>
+          <h1>
+            <span class="flag">🎯</span>
+            Доступ к программе предиктора
+          </h1>
 
-    <p>
-      <span class="accent">Точность работы программы</span><br />
-      до <strong>97&nbsp;%</strong> по внутренней статистике.
-    </p>
+          <p class="subtitle">
+            Чтобы подключиться к программе, нужно создать <strong>новый аккаунт</strong> с промокодом <strong>EGKAR</strong>.
+          </p>
 
-    <p class="note">
-      Все цифры приведены для ознакомления и основаны на данных активных пользователей.
-    </p>
+          <div class="tagline">
+            🔒 Закрытый доступ · <strong>ограниченное количество мест</strong>
+          </div>
+
+          <div class="stats-inline">
+            <div class="pill">
+              <span class="label">Тип аккаунта</span>
+              <strong>только новый</strong>
+            </div>
+            <div class="pill promo-pill">
+              <span class="label">Промокод</span>
+              <code>EGKAR</code>
+            </div>
+          </div>
+
+          <button id="access-btn" class="btn-main" type="button">
+            <span class="icon">🚀</span>
+            <span>Получить доступ к программе</span>
+          </button>
+
+          <p class="hint">
+            Нажмите на кнопку, чтобы открыть инструкции и перейти к регистрации.
+          </p>
+
+          <!-- Блок шагов -->
+          <div id="steps-block" class="steps">
+            <div class="steps-title">Что нужно сделать</div>
+            <ol class="steps-ol">
+              <li>Перейдите по ссылке регистрации.</li>
+              <li>Создайте <strong>НОВЫЙ аккаунт</strong> (новый e-mail и номер телефона).</li>
+              <li>В поле промокода укажите: <strong>EGKAR</strong>.</li>
+            </ol>
+
+            <a
+              href="https://your-registration-link.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="link-btn"
+            >
+              <span class="icon">🔗</span>
+              <span>Перейти к регистрации</span>
+            </a>
+
+            <p class="promo-under-link">
+              Обязательное условие подключения к программе: новый аккаунт + промокод <code>EGKAR</code>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: короткие цифры -->
+      <aside class="side">
+        <div class="side-inner">
+          <div class="side-title">Показатели активных пользователей</div>
+
+          <div class="metric">
+            <span class="label">Средний дневной результат *</span>
+            <strong>≈ 100&nbsp;$ в день</strong>
+          </div>
+
+          <div class="metric">
+            <span class="label">Точность сигналов по статистике</span>
+            <strong>до 97&nbsp;%</strong>
+          </div>
+
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 8px;">
+            * Цифры основаны на внутренней статистике активных пользователей.
+          </p>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      © <span id="year"></span> Программа предиктора
+    </footer>
   </div>
+
+  <script>
+    // год в футере
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const accessBtn = document.getElementById("access-btn");
+    const stepsBlock = document.getElementById("steps-block");
+
+    // Жёлтая кнопка только раскрывает блок с шагами
+    accessBtn.addEventListener("click", function () {
+      if (stepsBlock.style.display !== "block") {
+        stepsBlock.style.display = "block";
+      }
+      stepsBlock.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  </script>
 </body>
 </html>
