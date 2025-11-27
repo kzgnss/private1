@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>Приватный доступ к программе предиктора</title>
+  <title>وصول خاص إلى برنامج التنبؤ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -28,6 +28,8 @@
       align-items: center;
       justify-content: center;
       padding: 16px;
+      direction: rtl;
+      text-align: right;
     }
 
     .page { width: 100%; max-width: 960px; }
@@ -229,7 +231,7 @@
     }
 
     .steps-ol {
-      margin: 0 0 8px 18px;
+      margin: 0 18px 8px 0;
       padding: 0;
     }
 
@@ -310,55 +312,55 @@
         <div class="card-inner">
           <div class="badge-geo">
             <span class="badge-dot"></span>
-            Онлайн доступ · приватная программа
+            وصول أونلاين · برنامج خاص
           </div>
 
           <h1>
             <span class="flag">🎯</span>
-            Доступ к программе предиктора
+            وصول لبرنامج التنبؤ
           </h1>
 
           <p class="subtitle">
-            Чтобы подключиться к программе, нужно создать <strong>новый аккаунт</strong> с промокодом <strong>EGKAR</strong>.
+            عشان توصّل للبرنامج، لازم تفتح <strong>حساب جديد تمامًا</strong> وتستخدم كود الدعوة <strong>EGKAR</strong>.
           </p>
 
           <div class="tagline">
-            🔒 Закрытый доступ · <strong>ограниченное количество мест</strong>
+            🔒 دخول مقفول · <strong>عدد الأماكن محدود</strong>
           </div>
 
           <!-- Таймер закрытия доступа -->
           <div class="timer-banner" id="timer-banner">
-            <span>⏳ Доступ для новых подключений закроется через</span>
+            <span>⏳ استقبال المشتركين الجُدد هيتقفل بعد</span>
             <span class="time" id="countdown">45:00</span>
           </div>
 
           <div class="stats-inline">
             <div class="pill">
-              <span class="label">Тип аккаунта</span>
-              <strong>только новый</strong>
+              <span class="label">نوع الحساب</span>
+              <strong>حساب جديد بس</strong>
             </div>
             <div class="pill promo-pill">
-              <span class="label">Промокод</span>
+              <span class="label">كود الدعوة</span>
               <code>EGKAR</code>
             </div>
           </div>
 
           <button id="access-btn" class="btn-main" type="button">
             <span class="icon">🚀</span>
-            <span>Получить доступ к программе</span>
+            <span>الحصول على وصول للبرنامج</span>
           </button>
 
           <p class="hint">
-            Нажмите на кнопку, чтобы открыть инструкции и перейти к регистрации.
+            اضغط على الزر عشان تشوف الخطوات وتدخل على صفحة التسجيل.
           </p>
 
           <!-- Блок шагов -->
           <div id="steps-block" class="steps">
-            <div class="steps-title">Что нужно сделать</div>
+            <div class="steps-title">إيه المطلوب تعملُه</div>
             <ol class="steps-ol">
-              <li>Перейдите по ссылке регистрации.</li>
-              <li>Создайте <strong>НОВЫЙ аккаунт</strong> (новый e-mail и номер телефона).</li>
-              <li>В поле промокода укажите: <strong>EGKAR</strong>.</li>
+              <li>ادخل على رابط التسجيل اللي تحت.</li>
+              <li>إفتح <strong>حساب جديد تمامًا</strong> (إيميل ورقم موبايل ما استخدمتهمش قبل كده).</li>
+              <li>في خانة الكود اكتب: <strong>EGKAR</strong>.</li>
             </ol>
 
             <a
@@ -368,11 +370,11 @@
               class="link-btn"
             >
               <span class="icon">🔗</span>
-              <span>Перейти к регистрации</span>
+              <span>الدخول لصفحة التسجيل</span>
             </a>
 
             <p class="promo-under-link">
-              Обязательное условие подключения к программе: новый аккаунт + промокод <code>EGKAR</code>.
+              شرط تفعيل البرنامج: حساب جديد + كود <code>EGKAR</code>.
             </p>
           </div>
         </div>
@@ -381,38 +383,38 @@
       <!-- RIGHT: короткие цифры -->
       <aside class="side">
         <div class="side-inner">
-          <div class="side-title">Показатели активных пользователей</div>
+          <div class="side-title">نتايج اللاعبين النشيطين</div>
 
           <div class="metric">
-            <span class="label">Средний дневной результат *</span>
-            <strong>≈ 100&nbsp;$ в день</strong>
+            <span class="label">متوسط النتيجة اليومية*</span>
+            <strong>حوالي ١٠٠ $ في اليوم</strong>
           </div>
 
           <div class="metric">
-            <span class="label">Точность сигналов по статистике</span>
-            <strong>до 97&nbsp;%</strong>
+            <span class="label">دقة الإشارات حسب الإحصائيات</span>
+            <strong>لحد ٩٧٪ تقريبًا</strong>
           </div>
 
           <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 8px;">
-            * Цифры основаны на внутренней статистике активных пользователей.
+            * الأرقام مبنية على إحصائيات داخلية للاعبين النشيطين.
           </p>
         </div>
       </aside>
     </div>
 
     <footer>
-      © <span id="year"></span> Программа предиктора
+      © <span id="year"></span> برنامج التنبؤ
     </footer>
   </div>
 
   <script>
-    // год в футере
+    // السنة في الفوتر
     document.getElementById("year").textContent = new Date().getFullYear();
 
     const accessBtn = document.getElementById("access-btn");
     const stepsBlock = document.getElementById("steps-block");
 
-    // Жёлтая кнопка только раскрывает блок с шагами
+    // الزر الأصفر بس بيظهر بلوك الخطوات
     accessBtn.addEventListener("click", function () {
       if (stepsBlock.style.display !== "block") {
         stepsBlock.style.display = "block";
@@ -420,11 +422,11 @@
       stepsBlock.scrollIntoView({ behavior: "smooth", block: "start" });
     });
 
-    // ТАЙМЕР 45 МИНУТ
+    // تــايـمــر ٤٥ دقيقة
     const countdownEl = document.getElementById("countdown");
     const timerBanner = document.getElementById("timer-banner");
 
-    // 45 минут от момента захода на страницу
+    // ٤٥ دقيقة من وقت فتح الصفحة
     const endTime = Date.now() + 45 * 60 * 1000;
 
     function updateTimer() {
@@ -434,7 +436,7 @@
         clearInterval(timerInterval);
         if (countdownEl) countdownEl.textContent = "00:00";
         if (timerBanner) {
-          timerBanner.textContent = "⛔ Доступ для новых подключений временно закрыт";
+          timerBanner.textContent = "⛔ تم إيقاف استقبال مشتركين جدد مؤقتًا";
         }
         return;
       }
